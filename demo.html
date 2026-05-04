@@ -61,6 +61,7 @@
   .bg-navy { background: var(--navy); color: white; }
   .bg-cream { background: var(--cream); color: var(--navy); }
   .bg-green { background: var(--green); color: white; }
+  .bg-amber { background: var(--amber); color: var(--navy); }
   .bg-offwhite { background: var(--offwhite); color: var(--navy); }
   .bg-dark { background: #111820; color: white; }
   .bg-gradient { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: white; }
@@ -663,7 +664,7 @@
 <div class="deck" id="deck">
 
   <!-- ==================== SLIDE 1: TITLE ==================== -->
-  <div class="slide bg-navy active" data-idx="0">
+  <div class="slide bg-amber active" data-idx="0">
     <img src="../public/lobster-lager-logo.png" class="logo-img" alt="Lobster Lager">
     <div class="kicker">LOBSTER LAGER CASE STUDY</div>
     <h1 class="hero">What normies can<br>build <span class="accent">now</span></h1>
@@ -1012,16 +1013,11 @@
     </div>
   </div>
 
-  <!-- ==================== SLIDE 11: TED VIDEO ==================== -->
-  <div class="slide bg-dark" data-idx="11">
-    <div class="kicker">TED2026 VANCOUVER</div>
-    <h1>Peter Steinberger at <span class="accent">TED</span></h1>
-    <p class="subtitle">Lobster Lager featured in Peter's TED2026 talk on agentic creation.</p>
-    <div class="video-container">
-      <video controls preload="metadata">
-        <source src="TED Peter Steinberger.mp4" type="video/mp4">
-      </video>
-    </div>
+  <!-- ==================== SLIDE 11: THE POINT ==================== -->
+  <div class="slide bg-green" data-idx="11">
+    <div class="quote-mark">"</div>
+    <p class="big-quote">The barrier to building digital products is no longer technical skill. It's having <strong>something worth building.</strong></p>
+    <p style="font-family: var(--font-body); font-size: 20px; margin-top: 32px; opacity: 0.8;">Gerhard had something worth building.<br>OpenClaw handled the rest.</p>
   </div>
 
   <!-- ==================== SLIDE 12: THE CONTRAST ==================== -->
@@ -1052,8 +1048,32 @@
     </div>
   </div>
 
-  <!-- ==================== SLIDE 13: FULL COVERAGE WALL ==================== -->
-  <div class="slide bg-navy" data-idx="13" style="padding: 40px 60px;">
+  <!-- ==================== SLIDE 13: TED VIDEO ==================== -->
+  <div class="slide bg-dark" data-idx="13">
+    <div class="kicker">TED2026 VANCOUVER</div>
+    <h1>Peter Steinberger at <span class="accent">TED</span></h1>
+    <p class="subtitle">Lobster Lager featured in Peter's TED2026 talk on agentic creation.</p>
+    <div class="video-container">
+      <video controls preload="metadata">
+        <source src="TED Peter Steinberger.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 14: NVIDIA GTC VIDEO ==================== -->
+  <div class="slide bg-dark" data-idx="14">
+    <div class="kicker">NVIDIA GTC 2026</div>
+    <h1>On the <span class="accent">GTC</span> main stage</h1>
+    <p class="subtitle">Jensen Huang featured Lobster Lager as a showcase for agentic AI creation.</p>
+    <div class="video-container">
+      <video controls preload="metadata">
+        <source src="NVIDIA GTC.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 15: FULL COVERAGE WALL ==================== -->
+  <div class="slide bg-navy" data-idx="15" style="padding: 40px 60px;">
     <div class="kicker">THE FULL PICTURE</div>
     <h1>25+ outlets across 5 countries</h1>
     <div class="coverage-wall">
@@ -1103,25 +1123,6 @@
       </div>
     </div>
     <p class="syndication-note"><strong>+ syndicated via PR Newswire</strong> to Yahoo Finance, Morningstar, StreetInsider, Ground News, and more</p>
-  </div>
-
-  <!-- ==================== SLIDE 14: NVIDIA GTC VIDEO ==================== -->
-  <div class="slide bg-dark" data-idx="14">
-    <div class="kicker">NVIDIA GTC 2026</div>
-    <h1>On the <span class="accent">GTC</span> main stage</h1>
-    <p class="subtitle">Jensen Huang featured Lobster Lager as a showcase for agentic AI creation.</p>
-    <div class="video-container">
-      <video controls preload="metadata">
-        <source src="NVIDIA GTC.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-
-  <!-- ==================== SLIDE 15: THE POINT ==================== -->
-  <div class="slide bg-green" data-idx="15">
-    <div class="quote-mark">"</div>
-    <p class="big-quote">The barrier to building digital products is no longer technical skill. It's having <strong>something worth building.</strong></p>
-    <p style="font-family: var(--font-body); font-size: 20px; margin-top: 32px; opacity: 0.8;">Gerhard had something worth building.<br>OpenClaw handled the rest.</p>
   </div>
 
   <!-- ==================== SLIDE 16: CTA ==================== -->
