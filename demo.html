@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lobster Lager — TokenMade Hamburg 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1B2A3E;
+    --navy-light: #263A52;
+    --navy-mid: #1F3044;
+    --red: #CF4B3A;
+    --red-light: #E8695A;
+    --green: #1A6B52;
+    --green-light: #228B6A;
+    --offwhite: #F8F8FA;
+    --cream: #EDE8DF;
+    --amber: #F5A623;
+    --amber-dark: #D48806;
+    --text-light: rgba(255,255,255,0.7);
+    --text-lighter: rgba(255,255,255,0.5);
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--navy);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== SLIDESHOW ENGINE ===== */
+  .deck {
+    width: 100vw; height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 80px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ===== BACKGROUNDS ===== */
+  .bg-navy { background: var(--navy); color: white; }
+  .bg-cream { background: var(--cream); color: var(--navy); }
+  .bg-green { background: var(--green); color: white; }
+  .bg-offwhite { background: var(--offwhite); color: var(--navy); }
+  .bg-dark { background: #111820; color: white; }
+  .bg-gradient { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); color: white; }
+
+  /* ===== TYPOGRAPHY ===== */
+  .kicker {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--red);
+    margin-bottom: 20px;
+  }
+  .bg-cream .kicker,
+  .bg-offwhite .kicker { color: var(--red); }
+  .bg-green .kicker { color: rgba(255,255,255,0.6); }
+
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 72px;
+    line-height: 1.05;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+  h1.hero { font-size: 86px; }
+  h1 .accent { color: var(--red); }
+  .bg-cream h1 .accent,
+  .bg-offwhite h1 .accent { color: var(--red); }
+  .bg-green h1 .accent { color: var(--cream); }
+
+  h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-family: var(--font-body);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 700px;
+    opacity: 0.8;
+  }
+  .bg-cream .subtitle { color: var(--navy); opacity: 0.6; }
+
+  .big-quote {
+    font-family: var(--font-body);
+    font-size: 36px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 800px;
+  }
+  .big-quote strong {
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  .url {
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 400;
+    opacity: 0.4;
+    margin-top: 16px;
+  }
+
+  /* ===== LOGO ===== */
+  .logo-img {
+    height: 160px;
+    margin-bottom: 32px;
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,0.3));
+  }
+  .logo-img-small {
+    height: 70px;
+    margin-bottom: 20px;
+  }
+
+  /* ===== AVATAR CARDS ===== */
+  .people-row {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  .person-card {
+    background: var(--navy-light);
+    border-radius: 16px;
+    padding: 40px 48px;
+    text-align: center;
+    width: 340px;
+  }
+  .person-card img {
+    width: 120px; height: 120px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    background: var(--navy-mid);
+  }
+  .person-card h3 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .person-card p {
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-light);
+  }
+  .person-card .tagline {
+    font-size: 14px;
+    color: var(--red-light);
+    font-weight: 500;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    text-align: left;
+    max-width: 700px;
+    width: 100%;
+    margin-top: 32px;
+  }
+  .tl-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 22px;
+  }
+  .tl-date {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--red-light);
+    min-width: 70px;
+    text-align: right;
+    padding-top: 2px;
+  }
+  .tl-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .tl-content h4 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .tl-content p {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+
+  /* ===== GRID CARDS ===== */
+  .grid-6 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+    max-width: 900px;
+    width: 100%;
+  }
+  .grid-card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .grid-card .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .grid-card h4 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+  .grid-card p {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: #888;
+    line-height: 1.4;
+  }
+  .grid-card.shipped {
+    border: 2px solid var(--green);
+  }
+  .grid-card .status {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--green);
+    margin-top: 6px;
+  }
+
+  /* ===== PHOTO GRID ===== */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 32px;
+    height: 55vh;
+  }
+  .photo-grid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  .photo-grid .span-2 {
+    grid-row: span 2;
+  }
+  .photo-label {
+    position: absolute;
+    bottom: 10px; left: 14px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .photo-cell {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+  .photo-cell img {
+    border-radius: 0;
+  }
+
+  /* ===== DASHBOARD FRAME ===== */
+  .dashboard-frame {
+    max-width: 950px;
+    width: 100%;
+    margin-top: 28px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .dashboard-frame img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== CHAT FRAME ===== */
+  .chat-frame {
+    max-width: 360px;
+    margin-top: 28px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 3px solid rgba(255,255,255,0.15);
+  }
+  .chat-frame img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ===== STATS ROW ===== */
+  .stats-row {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    margin-top: 48px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .val {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--red);
+  }
+  .stat .lbl {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 8px;
+    opacity: 0.6;
+  }
+  .bg-cream .stat .val { color: var(--red); }
+
+  /* ===== PRESS LOGOS ===== */
+  .press-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .press-item {
+    background: var(--navy-light);
+    border-radius: 12px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .press-item img {
+    height: 80px;
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    object-fit: cover;
+  }
+  .press-item h4 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .press-item p {
+    font-family: var(--font-body);
+    font-size: 11px;
+    color: var(--text-light);
+  }
+
+  /* ===== COVERAGE WALL ===== */
+  .coverage-wall {
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .coverage-section h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--red-light);
+  }
+  .coverage-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  .coverage-section li {
+    font-family: var(--font-body);
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,0.8);
+  }
+  .coverage-section li strong {
+    color: white;
+    font-weight: 600;
+  }
+  .coverage-section li .outlet-type {
+    font-size: 10px;
+    color: var(--text-lighter);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .syndication-note {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-lighter);
+    margin-top: 20px;
+    max-width: 1100px;
+    text-align: center;
+  }
+  .syndication-note strong { color: var(--text-light); }
+
+  /* ===== PROCESS TABLE ===== */
+  .process-table {
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .process-col {
+    text-align: left;
+  }
+  .process-col h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+  }
+  .process-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+  .process-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+  .process-item h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .process-item p {
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+  .bg-cream .process-col h3 { border-bottom-color: rgba(27,42,62,0.15); }
+  .bg-cream .process-item p { color: var(--navy); opacity: 0.5; }
+
+  /* ===== CONTRAST TABLE ===== */
+  .contrast-row {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 40px;
+    max-width: 1000px;
+  }
+  .contrast-col {
+    flex: 1;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: left;
+  }
+  .contrast-col.dim {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .contrast-col.highlight {
+    background: var(--red);
+    border: 1px solid var(--red-light);
+  }
+  .contrast-col h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .contrast-col.dim h3 { opacity: 0.5; }
+  .contrast-col ul {
+    list-style: none;
+    padding: 0;
+  }
+  .contrast-col li {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    padding-left: 20px;
+    position: relative;
+  }
+  .contrast-col.dim li { color: var(--text-light); }
+  .contrast-col.highlight li { color: rgba(255,255,255,0.95); }
+  .contrast-col li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .contrast-col.dim li::before { background: rgba(255,255,255,0.15); }
+  .contrast-col.highlight li::before { background: rgba(255,255,255,0.5); }
+
+  /* ===== MEDIA COLLAGE (brew day) ===== */
+  .brew-collage {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    max-width: 1100px;
+    width: 100%;
+    margin-top: 28px;
+    height: 50vh;
+  }
+  .brew-collage .photo-cell:first-child {
+    grid-row: span 2;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position: fixed;
+    bottom: 0; left: 0;
+    height: 3px;
+    background: var(--red);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* ===== SLIDE COUNTER ===== */
+  .slide-counter {
+    position: fixed;
+    bottom: 16px; right: 24px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    z-index: 100;
+  }
+
+  /* ===== KEYBOARD HINT ===== */
+  .key-hint {
+    position: fixed;
+    bottom: 16px; left: 24px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: rgba(255,255,255,0.2);
+    z-index: 100;
+  }
+  .key-hint span {
+    background: rgba(255,255,255,0.08);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 0 2px;
+  }
+
+  /* ===== QUOTE MARKS ===== */
+  .quote-mark {
+    font-size: 120px;
+    font-family: Georgia, serif;
+    color: rgba(255,255,255,0.15);
+    line-height: 0.5;
+    margin-bottom: 20px;
+  }
+  .bg-green .quote-mark { color: rgba(255,255,255,0.2); }
+
+  /* ===== IMAGE ROW ===== */
+  .image-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 28px;
+  }
+  .image-row img {
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  /* ===== VIDEO SLIDE ===== */
+  .video-container {
+    max-width: 900px;
+    width: 100%;
+    margin-top: 28px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .video-container video {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
+  }
+
+  /* ===== VISION ROW ===== */
+  .vision-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 32px;
+    max-width: 1000px;
+    align-items: center;
+  }
+  .vision-row img {
+    height: 300px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- ==================== SLIDE 1: TITLE ==================== -->
+  <div class="slide bg-navy active" data-idx="0">
+    <img src="../public/lobster-lager-logo.png" class="logo-img" alt="Lobster Lager">
+    <div class="kicker">LOBSTER LAGER CASE STUDY</div>
+    <h1 class="hero">What normies can<br>build <span class="accent">now</span></h1>
+    <p class="subtitle">From agentic optimization to agentic creation</p>
+    <p class="url">lobsterlager.com &middot; TokenMade Hamburg 2026</p>
+  </div>
+
+  <!-- ==================== SLIDE 2: THE QUESTION ==================== -->
+  <div class="slide bg-cream" data-idx="1">
+    <div class="kicker">FEB 7, 2026</div>
+    <h1>What if we connect brewing<br>hardware to an AI assistant?</h1>
+    <p class="subtitle">A Grainfather G30 in a Swiss micro brewery. A MacBook with Bluetooth. An AI that can write code, talk to APIs, and control machines.</p>
+    <p style="font-family: var(--font-display); font-size: 28px; font-weight: 700; margin-top: 32px; color: var(--navy);">Not a gimmick. A real product launch.</p>
+  </div>
+
+  <!-- ==================== SLIDE 3: THE PEOPLE ==================== -->
+  <div class="slide bg-navy" data-idx="2">
+    <div class="kicker">THE PEOPLE</div>
+    <h1>A brewmaster and an AI</h1>
+    <div class="people-row">
+      <div class="person-card">
+        <img src="../public/avatar-gerhard.png" alt="Gerhard">
+        <h3>Gerhard</h3>
+        <p>68 years old. Runs a micro brewery in Switzerland. Certified Biersommelier. 2x Gold at Brau & Rauch.</p>
+        <div class="tagline">Knows everything about beer.<br>Knows nothing about tech.</div>
+      </div>
+      <div class="person-card">
+        <img src="../public/openclaw.png" alt="OpenClaw" style="background: transparent;">
+        <h3>OpenClaw</h3>
+        <p>A personal AI assistant that actually does things. Runs 24/7, talks via WhatsApp or Telegram.</p>
+        <div class="tagline">Knows everything about automation.<br>Knows nothing about beer.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 4: 5 DAYS TIMELINE ==================== -->
+  <div class="slide bg-navy" data-idx="3">
+    <div class="kicker">FROM ZERO TO LIVE</div>
+    <h1>5 days. Everything shipped.</h1>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Feb 6</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>Idea + brand identity</h4>
+          <p>Name, logo, color palette, design system. All generated and finalized.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 7</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>First BLE connection to Grainfather</h4>
+          <p>MacBook talks to the G30 over Bluetooth. Reads sensors, sends commands.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 8</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>Recipe locked + website + shop + payments</h4>
+          <p>Amber Lager recipe finalized with Gerhard. Full website, Stripe checkout, newsletter, Discord alerts.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 9</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>First test brew + Brew Dashboard live</h4>
+          <p>OpenClaw ran the full mash schedule. Live temperature, step progress, pump and heater control.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 10</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>On stage at OpenClaw Conf, Vienna</h4>
+          <p>Presenting Lobster Lager to 500 people. Eight 5-minute talks on creative AI use cases.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 5: WHAT A NORMIE HAS RUNNING ==================== -->
+  <div class="slide bg-offwhite" data-idx="4">
+    <div class="kicker">THE OUTPUT</div>
+    <h1>What a "normie" now has running</h1>
+    <div class="grid-6">
+      <div class="grid-card shipped">
+        <div class="icon">&#127760;</div>
+        <h4>Landing Page</h4>
+        <p>Next.js 16, Tailwind, animations, mobile-ready</p>
+        <div class="status">Shipped</div>
+      </div>
+      <div class="grid-card shipped">
+        <div class="icon">&#128179;</div>
+        <h4>Stripe Checkout</h4>
+        <p>Payments, webhooks, order confirmations</p>
+        <div class="status">Shipped</div>
+      </div>
+      <div class="grid-card shipped">
+        <div class="icon">&#128232;</div>
+        <h4>Newsletter</h4>
+        <p>Double opt-in, Brevo campaigns, 10 editions sent</p>
+        <div class="status">Shipped</div>
+      </div>
+      <div class="grid-card shipped">
+        <div class="icon">&#128276;</div>
+        <h4>Discord Alerts</h4>
+        <p>Real-time sales & signup notifications</p>
+        <div class="status">Shipped</div>
+      </div>
+      <div class="grid-card shipped">
+        <div class="icon">&#128225;</div>
+        <h4>BLE Hardware</h4>
+        <p>Bluetooth control of Grainfather G30 + fermenter</p>
+        <div class="status">Shipped</div>
+      </div>
+      <div class="grid-card shipped">
+        <div class="icon">&#127909;</div>
+        <h4>Vision System</h4>
+        <p>Camera monitoring, OCR display reading, alerts</p>
+        <div class="status">Shipped</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 6: TECH STACK + OPENCLAW PROCESS ==================== -->
+  <div class="slide bg-cream" data-idx="5" style="padding: 40px 60px;">
+    <div class="kicker">UNDER THE HOOD</div>
+    <h1>Tech stack &amp; what <span class="accent">OpenClaw</span> built</h1>
+    <div class="process-table">
+      <div class="process-col">
+        <h3>The Stack</h3>
+        <div class="process-item">
+          <div class="process-icon">&#9881;</div>
+          <div>
+            <h4>Next.js 16 + Tailwind v4</h4>
+            <p>Landing page, logbook, responsive design</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128179;</div>
+          <div>
+            <h4>Stripe + Webhooks</h4>
+            <p>Checkout, order confirmation, inventory</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128232;</div>
+          <div>
+            <h4>Brevo</h4>
+            <p>Newsletter campaigns, double opt-in, 10 editions</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#9889;</div>
+          <div>
+            <h4>Vercel + GitHub</h4>
+            <p>CI/CD, preview deploys, edge network</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128225;</div>
+          <div>
+            <h4>BLE + USB Camera</h4>
+            <p>Grainfather G30 control, OCR display reading</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128172;</div>
+          <div>
+            <h4>Telegram + Discord</h4>
+            <p>Clawdbot interface, real-time sales alerts</p>
+          </div>
+        </div>
+      </div>
+      <div class="process-col">
+        <h3>What OpenClaw did</h3>
+        <div class="process-item">
+          <div class="process-icon">&#127912;</div>
+          <div>
+            <h4>Brand &amp; Design System</h4>
+            <p>Name, logo, colors, fonts, visual identity</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128187;</div>
+          <div>
+            <h4>Full Website + Shop</h4>
+            <p>Every line of code, every component, every deploy</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#127866;</div>
+          <div>
+            <h4>Recipe Development</h4>
+            <p>Amber Lager recipe with Gerhard's expertise</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#127777;</div>
+          <div>
+            <h4>Brew Session Control</h4>
+            <p>Ran mash schedule, controlled temps via BLE</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128240;</div>
+          <div>
+            <h4>All Marketing</h4>
+            <p>Newsletters, social posts, press outreach</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128230;</div>
+          <div>
+            <h4>Procurement</h4>
+            <p>Sourced ingredients, labels, packaging, suppliers</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-icon">&#128064;</div>
+          <div>
+            <h4>Monitoring &amp; Vision</h4>
+            <p>Camera OCR, fermentation tracking, alerts</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="font-family: var(--font-body); font-size: 18px; font-weight: 600; margin-top: 28px; color: var(--navy); opacity: 0.7;">Total cost: <span style="color: var(--red); font-size: 24px; font-weight: 800;">20 CHF/month</span> OpenAI subscription &middot; OpenClaw powered by Codex</p>
+  </div>
+
+  <!-- ==================== SLIDE 7: BREW DASHBOARD ==================== -->
+  <div class="slide bg-dark" data-idx="6">
+    <div class="kicker">FEB 10, 2026</div>
+    <h1>The Brew Dashboard</h1>
+    <p class="subtitle">Live temperature, mash steps, pump and heater control. OpenClaw runs the brew session in real time.</p>
+    <div class="dashboard-frame">
+      <img src="../public/brew-dashboard-tokenmade.png" alt="brewOS Dashboard">
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 7: CLAWDBOT ==================== -->
+  <div class="slide bg-navy" data-idx="7">
+    <div class="kicker">THE INTERFACE</div>
+    <h1>You just talk to it</h1>
+    <p class="subtitle">Gerhard texts Clawdbot on Telegram. The AI handles the rest.</p>
+    <div class="chat-frame">
+      <img src="../public/brew-day-clawdbot.jpg" alt="Clawdbot Telegram">
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 9: BREW DAY ==================== -->
+  <!-- ==================== SLIDE 8: VISION SYSTEM ==================== -->
+  <div class="slide bg-dark" data-idx="8">
+    <div class="kicker">AI SEES EVERYTHING</div>
+    <h1>Camera + BLE + Agent</h1>
+    <p class="subtitle">USB camera reads the Grainfather display via OCR, cross-checks BLE sensor data, detects foam anomalies.</p>
+    <div class="vision-row">
+      <img src="../public/brew-vision-setup.jpg" alt="Vision Setup" style="height: 280px;">
+      <img src="../public/brew-vision-phone.jpg" alt="Vision Phone" style="height: 280px;">
+      <img src="../public/brew-program-test.png" alt="Brew Program" style="height: 280px;">
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 9: WHAT HAPPENED NEXT ==================== -->
+  <div class="slide bg-cream" data-idx="9">
+    <div class="kicker">WHAT HAPPENED NEXT</div>
+    <h1>3 months later</h1>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="val">SOLD OUT</div>
+        <div class="lbl">Founders 6-Pack</div>
+      </div>
+      <div class="stat">
+        <div class="val">GTC</div>
+        <div class="lbl">NVIDIA Main Stage</div>
+      </div>
+      <div class="stat">
+        <div class="val">TED</div>
+        <div class="lbl">2026 Vancouver</div>
+      </div>
+    </div>
+    <div class="stats-row" style="margin-top: 32px;">
+      <div class="stat">
+        <div class="val" style="font-size: 48px;">1.8K+</div>
+        <div class="lbl">Launch Day Likes</div>
+      </div>
+      <div class="stat">
+        <div class="val" style="font-size: 48px;">466K</div>
+        <div class="lbl">TikTok Reach</div>
+      </div>
+      <div class="stat">
+        <div class="val" style="font-size: 48px;">10</div>
+        <div class="lbl">Newsletter Editions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 10: PRESS HIGHLIGHTS ==================== -->
+  <div class="slide bg-navy" data-idx="10" style="padding: 40px 60px;">
+    <div class="kicker">PRESS & FEATURES</div>
+    <h1>Where Lobster Lager showed up</h1>
+    <div class="press-grid">
+      <div class="press-item">
+        <img src="../public/press-bild.png" alt="BILD">
+        <h4>BILD</h4>
+        <p>Germany's biggest tabloid, Apr 26</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/gtc-lobsterlager-tweet.png" alt="GTC">
+        <h4>NVIDIA GTC Keynote</h4>
+        <p>Jensen Huang main stage</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/gtc-steipete-tweet.png" alt="TED">
+        <h4>TED2026 Vancouver</h4>
+        <p>Peter Steinberger, Apr 17</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/hanselminutes-steipete-lobster.png" alt="Lex Fridman">
+        <h4>Lex Fridman Podcast</h4>
+        <p>Episode #491, OpenClaw deep dive</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/trending-topics-feature.png" alt="NBC News">
+        <h4>NBC News</h4>
+        <p>Lobster-themed AI event coverage</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/clawcon-steipete-tweet.png" alt="Der Standard">
+        <h4>Der Standard</h4>
+        <p>Austria's paper of record</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/nate-jones-tiktok.jpg" alt="Business Insider">
+        <h4>Business Insider DE</h4>
+        <p>Full feature, Mar 2026</p>
+      </div>
+      <div class="press-item">
+        <img src="../public/scoble-like.png" alt="Die Presse">
+        <h4>Die Presse Podcast</h4>
+        <p>"Wie ein KI Projekt bei Nvidia landete"</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 11: FULL COVERAGE WALL ==================== -->
+  <div class="slide bg-navy" data-idx="11" style="padding: 40px 60px;">
+    <div class="kicker">THE FULL PICTURE</div>
+    <h1>25+ outlets across 5 countries</h1>
+    <div class="coverage-wall">
+      <div class="coverage-section">
+        <h3>Major Press</h3>
+        <ul>
+          <li><strong>BILD</strong> &mdash; "Vater und Sohn erfinden KI-Bier"</li>
+          <li><strong>NBC News</strong> &mdash; AI enthusiasts, cocktail sauce</li>
+          <li><strong>Der Standard</strong> &mdash; Pensionist lässt KI Bier brauen</li>
+          <li><strong>Die Presse</strong> &mdash; Podcast feature</li>
+          <li><strong>Business Insider DE</strong> &mdash; Full feature</li>
+          <li><strong>Business Punk</strong> &mdash; NVIDIA Chef "schmeckts"</li>
+          <li><strong>KURIER</strong> &mdash; Lobster Lager sorgt f&uuml;r Aufsehen</li>
+          <li><strong>GEWINN</strong> &mdash; AI Projekt auf Nvidia B&uuml;hne</li>
+          <li><strong>brutkasten</strong> &mdash; Auf der Nvidia Keynote</li>
+          <li><strong>Nachrichten.at</strong> &mdash; KI Bier begeistert Nvidia Chef</li>
+        </ul>
+      </div>
+      <div class="coverage-section">
+        <h3>International &amp; Industry</h3>
+        <ul>
+          <li><strong>36kr</strong> &mdash; Chinese tech media (2 features)</li>
+          <li><strong>Beverfood</strong> &mdash; Italian beer trade press</li>
+          <li><strong>Beer Connoisseur</strong> &mdash; US beer press</li>
+          <li><strong>My BeerBuzz</strong> &mdash; First beer on NVIDIA stage</li>
+          <li><strong>BeerTasting</strong> &mdash; Der Braumeister tippt, die KI braut</li>
+          <li><strong>The AI Journal</strong> &mdash; UK tech press</li>
+          <li><strong>Shelly Palmer</strong> &mdash; Corporate Claws</li>
+          <li><strong>KI Agenten</strong> &mdash; Reifegrad agentischer Systeme</li>
+          <li><strong>VOL.AT</strong> &mdash; Vorarlberger auf der Tech-B&uuml;hne</li>
+          <li><strong>meinbezirk.at</strong> &mdash; AIR Salzburg Awards</li>
+        </ul>
+      </div>
+      <div class="coverage-section">
+        <h3>Podcasts, TV &amp; Events</h3>
+        <ul>
+          <li><strong>Lex Fridman</strong> &mdash; Episode #491</li>
+          <li><strong>Hanselminutes</strong> &mdash; Scott Hanselman</li>
+          <li><strong>Die Presse</strong> &mdash; "Was wichtig ist"</li>
+          <li><strong>RTS Salzburg</strong> &mdash; TV interview</li>
+          <li><strong>NVIDIA GTC</strong> &mdash; Jensen Huang keynote</li>
+          <li><strong>TED2026</strong> &mdash; Vancouver main stage</li>
+          <li><strong>OpenClaw Conf</strong> &mdash; 500 attendees, Vienna</li>
+          <li><strong>TikTok</strong> &mdash; Nate B. Jones, 466K reach</li>
+          <li><strong>AIR Salzburg</strong> &mdash; Most Promising AI Project</li>
+        </ul>
+      </div>
+    </div>
+    <p class="syndication-note"><strong>+ syndicated via PR Newswire</strong> to Yahoo Finance, Morningstar, StreetInsider, Ground News, and more</p>
+  </div>
+
+  <!-- ==================== SLIDE 12: NVIDIA GTC VIDEO ==================== -->
+  <div class="slide bg-dark" data-idx="12">
+    <div class="kicker">NVIDIA GTC 2026</div>
+    <h1>On the <span class="accent">GTC</span> main stage</h1>
+    <p class="subtitle">Jensen Huang featured Lobster Lager as a showcase for agentic AI creation.</p>
+    <div class="video-container">
+      <video controls preload="metadata">
+        <source src="NVIDIA GTC.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 13: TED VIDEO ==================== -->
+  <div class="slide bg-dark" data-idx="13">
+    <div class="kicker">TED2026 VANCOUVER</div>
+    <h1>Peter Steinberger at <span class="accent">TED</span></h1>
+    <p class="subtitle">Lobster Lager featured in Peter's TED2026 talk on agentic creation.</p>
+    <div class="video-container">
+      <video controls preload="metadata">
+        <source src="TED Peter Steinberger.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 14: THE CONTRAST ==================== -->
+  <div class="slide bg-navy" data-idx="14">
+    <div class="kicker">THE DIFFERENCE</div>
+    <h1>Optimization vs. <span class="accent">Creation</span></h1>
+    <div class="contrast-row">
+      <div class="contrast-col dim">
+        <h3>Agentic Optimization</h3>
+        <ul>
+          <li>AI bolted onto existing business</li>
+          <li>+10% efficiency, same team</li>
+          <li>SaaS dashboard, chatbot</li>
+          <li>Requires existing company</li>
+          <li>Incremental improvement</li>
+        </ul>
+      </div>
+      <div class="contrast-col highlight">
+        <h3>Agentic Creation</h3>
+        <ul>
+          <li>AI enables a new business from zero</li>
+          <li>From nothing to Sold Out</li>
+          <li>Hardware, brand, shop, marketing</li>
+          <li>Requires domain expertise only</li>
+          <li>Entirely new value</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE 16: THE POINT ==================== -->
+  <div class="slide bg-green" data-idx="15">
+    <div class="quote-mark">"</div>
+    <p class="big-quote">The barrier to building digital products is no longer technical skill. It's having <strong>something worth building.</strong></p>
+    <p style="font-family: var(--font-body); font-size: 20px; margin-top: 32px; opacity: 0.8;">Gerhard had something worth building.<br>OpenClaw handled the rest.</p>
+  </div>
+
+  <!-- ==================== SLIDE 17: CTA ==================== -->
+  <div class="slide bg-navy" data-idx="16">
+    <div class="kicker">CALL TO ACTION</div>
+    <img src="../public/avatar-gerhard.png" alt="Gerhard" style="width: 120px; height: 120px; border-radius: 16px; margin-bottom: 24px; background: var(--navy-light);">
+    <h1 class="hero">Find your (inner) <span class="accent">Gerhard.</span></h1>
+    <p class="subtitle">The claw is ready.</p>
+  </div>
+
+  <!-- ==================== SLIDE 18: CLOSE ==================== -->
+  <div class="slide bg-offwhite" data-idx="17">
+    <img src="../public/lobster-lager-logo.png" class="logo-img" alt="Lobster Lager">
+    <h1 style="font-size: 80px;">Hold my claw.</h1>
+    <div style="display: flex; align-items: center; gap: 32px; margin-top: 24px;">
+      <img src="../public/qr-lobsterlager.svg" alt="QR Code" style="width: 140px; height: 140px; border-radius: 12px; border: 2px solid rgba(27,42,62,0.1);">
+      <div style="text-align: left;">
+        <p style="font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--navy);">lobsterlager.com</p>
+        <p style="font-family: var(--font-body); font-size: 14px; opacity: 0.4; margin-top: 4px;">openclaw.ai &middot; frontira.io</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== PROGRESS BAR ===== -->
+<div class="progress-bar" id="progress"></div>
+<div class="slide-counter" id="counter"></div>
+<div class="key-hint"><span>&larr;</span> <span>&rarr;</span> navigate</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goTo(current - 1); }
+    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+  });
+
+  // Click to advance (right half) / go back (left half)
+  document.addEventListener('click', (e) => {
+    if (e.clientX > window.innerWidth * 0.5) goTo(current + 1);
+    else goTo(current - 1);
+  });
+
+  // Init
+  goTo(0);
+</script>
+
+</body>
+</html>
