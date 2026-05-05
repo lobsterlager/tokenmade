@@ -652,19 +652,124 @@
     max-width: 1000px;
     align-items: center;
   }
-  .vision-row img {
-    height: 300px;
-    border-radius: 12px;
-    object-fit: cover;
-  }
-</style>
-</head>
-<body>
+	  .vision-row img {
+	    height: 300px;
+	    border-radius: 12px;
+	    object-fit: cover;
+	  }
 
-<div class="deck" id="deck">
+	  /* ===== INTRO ANIMATION ===== */
+	  .intro-screen {
+	    position: absolute;
+	    inset: 0;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    overflow: hidden;
+	    background: #0a1018;
+	    color: white;
+	    opacity: 0;
+	    pointer-events: none;
+	    transition: opacity 0.45s ease;
+	  }
+	  .intro-screen.active {
+	    opacity: 1;
+	    pointer-events: auto;
+	  }
+	  .intro-frame {
+	    position: absolute;
+	    inset: 0;
+	    background-image: var(--image);
+	    background-size: cover;
+	    background-position: center;
+	    opacity: 0;
+	    transform: scale(1.04);
+	    animation: introFrame 9s linear infinite;
+	  }
+	  .intro-frame::after {
+	    content: "";
+	    position: absolute;
+	    inset: 0;
+	    background:
+	      linear-gradient(90deg, rgba(10,16,24,0.82), rgba(10,16,24,0.24) 45%, rgba(10,16,24,0.72)),
+	      linear-gradient(0deg, rgba(10,16,24,0.72), transparent 45%, rgba(10,16,24,0.38));
+	  }
+	  .intro-frame:nth-child(2) { animation-delay: 1.5s; }
+	  .intro-frame:nth-child(3) { animation-delay: 3s; }
+	  .intro-frame:nth-child(4) { animation-delay: 4.5s; }
+	  .intro-frame:nth-child(5) { animation-delay: 6s; }
+	  .intro-frame:nth-child(6) { animation-delay: 7.5s; }
+	  .intro-screen::after {
+	    content: "";
+	    position: absolute;
+	    inset: 0;
+	    background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,0.7) 50%, transparent 58%);
+	    mix-blend-mode: screen;
+	    opacity: 0.18;
+	    animation: introFlash 1.5s linear infinite;
+	  }
+	  .intro-wordmark {
+	    position: relative;
+	    z-index: 4;
+	    font-family: var(--font-display);
+	    font-size: clamp(100px, 16vw, 280px);
+	    font-weight: 900;
+	    line-height: 0.76;
+	    letter-spacing: 0;
+	    text-transform: uppercase;
+	    text-align: center;
+	    text-shadow: 0 24px 80px rgba(0,0,0,0.75);
+	  }
+	  .intro-wordmark span {
+	    display: block;
+	    color: white;
+	  }
+	  .intro-tagline {
+	    position: absolute;
+	    z-index: 5;
+	    bottom: 58px;
+	    left: 50%;
+	    transform: translateX(-50%);
+	    font-family: var(--font-body);
+	    font-size: clamp(22px, 2.4vw, 42px);
+	    font-weight: 700;
+	    letter-spacing: 5px;
+	    text-transform: uppercase;
+	    color: white;
+	  }
 
-  <!-- ==================== SLIDE 1: TITLE ==================== -->
-  <div class="slide bg-amber active" data-idx="0">
+	  @keyframes introFrame {
+	    0%, 13% { opacity: 0; transform: scale(1.04); }
+	    17%, 29% { opacity: 1; }
+	    33%, 100% { opacity: 0; transform: scale(1.12); }
+	  }
+	  @keyframes introFlash {
+	    0% { transform: translateX(-65%) rotate(0deg); }
+	    100% { transform: translateX(65%) rotate(0deg); }
+	  }
+	</style>
+	</head>
+	<body>
+
+	<div class="deck" id="deck">
+
+	  <!-- ==================== INTRO LOOP ==================== -->
+	  <div class="intro-screen active" id="intro">
+	    <div class="intro-frame" style="--image: url('../public/brewday-brewos.jpg');"></div>
+	    <div class="intro-frame" style="--image: url('../public/press-bild.png');"></div>
+	    <div class="intro-frame" style="--image: url('../public/gtc-lobsterlager-tweet.png');"></div>
+	    <div class="intro-frame" style="--image: url('ted-peter-still.jpg');"></div>
+	    <div class="intro-frame" style="--image: url('../public/brewday-boil.jpg');"></div>
+	    <div class="intro-frame" style="--image: url('../public/nate-jones-tiktok.jpg');"></div>
+	    <div class="intro-wordmark">
+	      <span>Lobster</span>
+	      <span>Lager</span>
+	    </div>
+	    <div class="intro-tagline">From basement brew to global stage</div>
+	  </div>
+
+	  <!-- ==================== SLIDE 1: TITLE ==================== -->
+	  <div class="slide bg-amber" data-idx="0">
     <img src="../public/lobster-lager-logo.png" class="logo-img" alt="Lobster Lager">
     <div class="kicker">LOBSTER LAGER CASE STUDY</div>
     <h1 class="hero">What normies can<br>build <span class="accent">now</span></h1>
@@ -1153,26 +1258,46 @@
 <div class="slide-counter" id="counter"></div>
 <div class="key-hint"><span>&larr;</span> <span>&rarr;</span> navigate</div>
 
-<script>
-  const slides = document.querySelectorAll('.slide');
-  const total = slides.length;
-  let current = 0;
+	<script>
+	  const intro = document.getElementById('intro');
+	  const slides = document.querySelectorAll('.slide');
+	  const total = slides.length;
+	  let current = 0;
+	  let introActive = true;
 
-  function goTo(idx) {
-    if (idx < 0 || idx >= total) return;
-    slides[current].classList.remove('active');
-    current = idx;
-    slides[current].classList.add('active');
-    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
-    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
-  }
+	  function goTo(idx) {
+	    if (introActive) {
+	      if (idx > current) {
+	        introActive = false;
+	        intro.classList.remove('active');
+	        idx = 0;
+	      } else {
+	        return;
+	      }
+	    }
+	    if (idx < 0 || idx >= total) return;
+	    slides[current].classList.remove('active');
+	    current = idx;
+	    slides[current].classList.add('active');
+	    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+	    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+	  }
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
-    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goTo(current - 1); }
-    if (e.key === 'Home') { e.preventDefault(); goTo(0); }
-    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
-  });
+	  function showIntro() {
+	    slides[current].classList.remove('active');
+	    current = 0;
+	    introActive = true;
+	    intro.classList.add('active');
+	    document.getElementById('progress').style.width = '0%';
+	    document.getElementById('counter').textContent = 'intro';
+	  }
+
+	  document.addEventListener('keydown', (e) => {
+	    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); goTo(current + 1); }
+	    if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); current === 0 && !introActive ? showIntro() : goTo(current - 1); }
+	    if (e.key === 'Home') { e.preventDefault(); showIntro(); }
+	    if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+	  });
 
   // Touch support
   let touchStartX = 0;
@@ -1188,9 +1313,9 @@
     else goTo(current - 1);
   });
 
-  // Init
-  goTo(0);
-</script>
+	  // Init
+	  showIntro();
+	</script>
 
 </body>
 </html>
